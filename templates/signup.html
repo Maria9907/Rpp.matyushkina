@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - Лабораторная работа №4</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: monospace;
+            font-size: 16px;
+            background: #f5f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            display: flex;
+            padding: 20px;
+            background: lightpink;
+            font-weight: bold;
+            font-size: 20px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: lightpink;
+            text-align: right;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            margin-bottom: 60px;
+        }
+        
+        /* Форма в вашем стиле */
+        form {
+            max-width: 450px;
+            width: 100%;
+            margin: 20px auto;
+            padding: 30px;
+            border: 2.5px solid #e6bbbb;
+            border-radius: 8px;
+            background-color: #a17676;
+            font-size: 15px;
+            box-shadow: 0 0px 10px 0 rgb(95, 53, 59);
+        }
+        
+        form h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: lightpink;
+            color: rgb(0, 0, 0);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 16px;
+            font-family: monospace;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: rgb(247, 158, 171);
+            transform: translateY(-2px);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+        }
+        
+        .login-link a {
+            color: lightpink;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+            color: rgb(247, 158, 171);
+        }
+        
+        .info-text {
+            font-size: 12px;
+            color: #ffe0e0;
+            margin-top: -15px;
+            margin-bottom: 15px;
+        }
+        
+        /* Flash сообщения */
+        .error {
+            color: rgb(247, 158, 171);
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            background-color: #ffffff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .success {
+            color: #155724;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #d4edda;
+            border-radius: 5px;
+            border: 3px solid #c3e6cb;
+            text-align: center;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 12px;
+            margin: 15px 0;
+            color: #155724;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            form {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>Лабораторная работа №4</div>
+        <div>Регистрация нового пользователя</div>
+    </header>
+    
+    <main>
+        <form method="POST" action="{{ url_for('signup') }}">
+            <h1>Регистрация</h1>
+            
+            
+            
+            <div>
+                <label>Имя</label>
+                <input type="text" name="name" required placeholder="Введите ваше имя">
+            </div>
+            
+            <div>
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="example@mail.ru">
+            </div>
+            
+            <div>
+                <label>Пароль</label>
+                <input type="password" name="password" required placeholder="Придумайте пароль">
+                <div class="info-text">Пароль должен содержать не менее 6 символов</div>
+            </div>
+            
+            <button type="submit">Зарегистрироваться</button>
+            
+            <div class="login-link">
+                Уже есть аккаунт? <a href="/signup">Войти</a>
+            </div>
+        </form>
+    </main>
+    
+    <footer>
+        Матюшкина Мария, НГТУ © 2026
+    </footer>
+</body>
+</html>

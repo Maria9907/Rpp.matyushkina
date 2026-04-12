@@ -129,29 +129,12 @@
         }
         
         /* Flash сообщения */
-        .error {
-            color: rgb(247, 158, 171);
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 15px;
-            margin-top: 10px;
-            background-color: #ffffff;
-            text-align: center;
-            border-radius: 5px;
+        .flash-message {
             padding: 10px;
-        }
-        
-        .success {
-            color: #155724;
-            font-weight: bold;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #d4edda;
+            margin-bottom: 20px;
             border-radius: 5px;
-            border: 3px solid #c3e6cb;
             text-align: center;
         }
-        
         .success-message {
             background-color: #d4edda;
             border: 1px solid #c3e6cb;
@@ -160,6 +143,11 @@
             margin: 15px 0;
             color: #155724;
             text-align: center;
+        }
+        .flash-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
         
         @media (max-width: 768px) {
@@ -186,7 +174,11 @@
         <form method="POST" action="{{ url_for('signup') }}">
             <h1>Регистрация</h1>
             
-            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
             
             <div>
                 <label>Имя</label>
@@ -207,7 +199,7 @@
             <button type="submit">Зарегистрироваться</button>
             
             <div class="login-link">
-                Уже есть аккаунт? <a href="/">Войти</a>
+                Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a>
             </div>
         </form>
     </main>

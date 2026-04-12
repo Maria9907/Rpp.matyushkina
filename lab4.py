@@ -15,6 +15,33 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'          # страница для неавторизованных
+login_manager.login_message = 'Пожалуйста, авторизуйтесь для доступа к этой странице'
+login_manager.login_message_category = 'error'
+
+#Модель пользователя
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.email}>'
+
+#Загружаем пользовтаеля по id
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+#Создание бд 
+with app.app_context():
+    db.create_all()
+    print("База данных и таблицы созданы")
+
+
 
 #Главная страница для авторизованных пользователей
 @app.route('/')
@@ -25,7 +52,7 @@ def index():
 #Страница входа
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    
+    #если пользователь авторизован, перенаправление на главную 
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     
@@ -37,6 +64,7 @@ def login():
             flash('Пожалуйста, заполните все поля', 'error')
             return redirect(url_for('login'))
         
+        #Поиск пользователя по email
         user = User.query.filter_by(email=email).first()
         
         if not user:
@@ -73,7 +101,7 @@ def signup():
             flash('Пользователь с таким email уже существует', 'error')
             return redirect(url_for('signup'))
         
-        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        hashed_password = generate_password_hash(password)
         
         new_user = User(
             name=name,

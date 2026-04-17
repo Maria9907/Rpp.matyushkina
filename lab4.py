@@ -1,5 +1,3 @@
-
-from flask_login import LoginManager
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -10,13 +8,10 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'lab4-secret-key-2026'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'          # страница для неавторизованных
-login_manager.login_message = 'Пожалуйста, авторизуйтесь для доступа к этой странице'
 login_manager.login_message_category = 'error'
 
 #Модель пользователя
@@ -28,8 +23,6 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(100), nullable=False)
 
-    def __repr__(self):
-        return f'<User {self.email}>'
 
 #Загружаем пользовтаеля по id
 @login_manager.user_loader
@@ -39,9 +32,7 @@ def load_user(user_id):
 #Создание бд 
 with app.app_context():
     db.create_all()
-    print("База данных и таблицы созданы")
-
-
+    
 
 #Главная страница для авторизованных пользователей
 @app.route('/')
@@ -108,7 +99,6 @@ def signup():
             email=email,
             password=hashed_password
         )
-        
         db.session.add(new_user)
         db.session.commit()
         
@@ -124,9 +114,6 @@ def logout():
     logout_user()
     flash('Вы успешно вышли из системы', 'info')
     return redirect(url_for('login'))
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

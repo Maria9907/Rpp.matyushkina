@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа №6 - Микросервисы</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: monospace;
+            font-size: 16px;
+            background: #f5f0f0;
+        }
+        
+        main {
+            margin-bottom: 60px;
+            padding: 10px;
+        }
+        
+        header {
+            display: flex;
+            padding: 20px;
+            background: lightpink;
+            font-weight: bold;
+            font-size: 20px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: lightpink;
+            text-align: right;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        
+        h1, h2 {
+            margin: 4px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e6bbbb;
+        }
+        
+        .section h2 {
+            color: #a17676;
+            margin-bottom: 15px;
+            border-left: 4px solid lightpink;
+            padding-left: 15px;
+        }
+        
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            color: #452335;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #a17676;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background 0.3s;
+            height: max-content;
+        }
+        button:hover {
+            background: #8b5e5e;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #e6bbbb;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #a17676;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #faf0f0;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>Лабораторная работа №6</div>
+        <div>Разработка программных приложений</div>
+    </header>
+    
+    <main>
+        
+        <div class="section">
+            <h2>Добавить валюту</h2>
+            <form action="/load" method="post">
+                <label>Код валюты <input type="text" name="currency_name" placeholder="USD" required></label>
+                <label>Курс к рублю <input type="number" step="any" name="rate" placeholder="89.34" required></label>
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
+        
+        <div class="section">
+            <h2>Обновить курс</h2>
+            <form action="/update_currency" method="post">
+                <label>Код валюты <input type="text" name="currency_name" placeholder="USD" required></label>
+                <label>Новый курс <input type="number" step="any" name="rate" placeholder="90.50" required></label>
+                <button type="submit">Обновить</button>
+            </form>
+        </div>
+        
+        <div class="section">
+            <h2>Удалить валюту</h2>
+            <form action="/delete" method="post">
+                <label>Код валюты <input type="text" name="currency_name" placeholder="USD" required></label>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+        
+        <div class="section">
+            <h2>Конвертировать</h2>
+            <form action="/convert" method="post">
+                <label>Код валюты <input type="text" name="currency" placeholder="USD" required></label>
+                <label>Сумма <input type="number" step="any" name="amount" placeholder="100" required></label>
+                <button type="submit">Конвертировать</button>
+            </form>
+        </div>
+        
+        <div class="section">
+            <h2>Список валют</h2>
+            <table>
+                <tr><th>Валюта</th><th>Курс</th></tr>
+                {% for c in currencies %}
+                <tr><td>{{ c.currency_name }}</td><td>{{ c.rate }}</td></tr>
+                {% endfor %}
+                {% if not currencies %}
+                <tr><td colspan="2" style="text-align:center;">Валюты ещё не добавлены</td></tr>
+                {% endif %}
+            </table>
+        </div>
+    </main>
+    <footer>
+        Матюшкина Мария, НГТУ © 2026
+    </footer>
+</body>
+</html>

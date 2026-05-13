@@ -8,8 +8,7 @@ class TestTriangleFunction(unittest.TestCase):
 
     def test_equilateral(self):
         # 1: равносторонний треугольник.
-        self.assertEqual(
-            get_triangle_type(3, 3, 3),"equilateral")
+        self.assertEqual( get_triangle_type(3, 3, 3),"equilateral")
 
     def test_isosceles(self):
         # 2,4,5: равнобедренный треугольник
@@ -51,6 +50,5 @@ class TestTriangleFunction(unittest.TestCase):
             get_triangle_type(-1, -1, -1)
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 
 
-    
